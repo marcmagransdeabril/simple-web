@@ -167,6 +167,48 @@ Vanilla JS: Requires direct manipulation of native browser functions, which can 
 
 ## Templates
 
+1. Conditional Rendering (The *ngIf Equivalent)
+For conditional rendering, you use jQuery's fundamental selection and manipulation methods:
+
+To show/hide elements: You rely on the CSS display property using .show() and .hide(). However, this is more like Angular's [hidden] attribute, as the element remains in the DOM.
+
+To add/remove elements (True *ngIf):
+
+JavaScript
+
+if (shouldShow) {
+    // Element is currently removed, so add it back
+    $('#parent-container').append($copiedElement); 
+} else {
+    // Element is currently visible, so remove it
+    $('#content-container').remove(); 
+}
+2. Iteration (The *ngFor Equivalent)
+For iteration, you combine a standard JavaScript loop with jQuery's DOM insertion or a separate templating utility:
+
+Direct Iteration:
+
+JavaScript
+
+const users = [{ name: 'Alice' }, { name: 'Bob' }];
+const $list = $('#list-container');
+$list.empty(); // Clear the list first
+
+users.forEach(user => {
+    // Create new HTML on each loop and append it
+    const $li = $('<li>').text(user.name);
+    $list.append($li);
+});
+Templating Libraries: The most common way to handle complex iteration and conditionals outside of a full framework is by integrating a separate, dedicated templating library. Widely used examples include:
+
+Handlebars.js
+
+Mustache.js
+
+EJS (Embedded JavaScript)
+
+These libraries introduce their own specialized syntax for loops and conditionals within the HTML string (e.g., {{#each items}}...{{/each}} or {{#if condition}}...{{/if}}). You render the entire template string once and then use jQuery to insert the resulting HTML into the DOM.
+
 ## Multiple environments
 
 ## Minimization
