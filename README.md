@@ -2,12 +2,20 @@
 
 The basic idea is to write a guide to develop frontend applications with a minimal overhead of libraries and frameworks. That is, instead of using complex frameworks, leverage as much as possible the latest CSS, HTML, and Javascript standards (implemented in the four major browsers: Chrome, Edge, Firefox, and Safari), and minimize the number of external dependencies. This is mean to simplify the overall frontend design, optimize long-term maintainability, and potentially improve the performance by reducing the number of software layers used.
 
+Most likely, there are lots of people that hate the approach 😡. It is likely they have good reasons for it.
+
 ## 📄 Table of Contents
 
  * [HTML Includes](#html-includes)
  * [Namespaces](#namespaces)
  * [(Web)Components](#webcomponents)
  * [Modules](modules)
+ * [Data binding](#data-binding)
+ * [Reactivity](#reactivity)
+ * [Pipes](#pipes)
+ * [Signals](#signals)
+ * [Routing and Navigation](#routing-and-navigation)
+ * [HTTP Client](#http-client)
  * [Directives](#directives)
  * [Interceptors](#interceptors)
  * [Templates](#templates)
@@ -209,6 +217,11 @@ Key Differences from Frameworks
 Frameworks (e.g., Axios, Angular): Provide a clean, declarative API (e.g., axios.interceptors.request.use(...)) to register multiple interceptor functions without needing to deal with monkey-patching.
 
 Vanilla JS: Requires direct manipulation of native browser functions, which can be fragile, especially if multiple scripts try to override the same function.
+
+## Directives
+Structural Directives (e.g., *ngIf, *ngFor) modify the structure of the DOM by adding, removing, or manipulating elements.
+
+Attribute Directives (e.g., ngClass, ngStyle) change the appearance or behavior of an existing element.
 
 ## Templates
 
