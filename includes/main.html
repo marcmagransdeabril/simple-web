@@ -1,10 +1,16 @@
-<html> 
-  <head> 
-  </head> 
-
-  <body> 
-    <p>Before the included file</p>
-    <object data="included.html"></object>
-    <p>After the included file</p>
-  </body> 
+<html>
+<head>
+   <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+   <script>
+      $(function() {
+         $("#includeHtml").load("incldued.html");
+      });
+   </script>
+</head>
+<body>
+  <h2>Program to include another HTML file in this HTML using <i>JQuery load</i></h2>
+  <p>Before the <a href="https://marcmagransdeabril.github.io/simple-web/includes/included.html">included.html</a> fragment</p>
+  <div id="includeHtml"></div>
+  <p>After the fragment</p>
+</body>
 </html>
