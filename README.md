@@ -2,13 +2,13 @@
 
 The basic idea is to write a guide to develop frontend applications with a minimal overhead of libraries and frameworks. That is, instead of using complex frameworks, leverage as much as possible the latest CSS, HTML, and Javascript standards (implemented in the four major browsers: Chrome, Edge, Firefox, and Safari), and minimize the number of external dependencies. This is mean to simplify the overall frontend design, optimize long-term maintainability, and potentially improve the performance by reducing the number of software layers used.
 
-## Includes
+## HTML Includes
 
-How can we have modular definitions of HTML pages allowing the reuse, for example, of headers and footer html.
+How can we have modular definitions of HTML pages, allowing the reuse, for example, of header and footer HTML?
 
-The simplest solution seems to be the use of an external library, like [jQuery](https://jquery.com/) (although [other Javascript libraries exist](https://css-tricks.com/the-simplest-ways-to-handle-html-includes/).
+The simplest solution seems to be the use of an external library, like [jQuery](https://jquery.com/) (although [other JavaScript libraries exist](https://css-tricks.com/the-simplest-ways-to-handle-html-includes/) for this purpose).
 
-We basically inject an external resource to a div element:
+We basically inject an external resource into a `<div>` element:
 
 ```html
 <html>
@@ -29,10 +29,41 @@ We basically inject an external resource to a div element:
 </html>
 ```
 
-Where the `$(function() { ... });` is the standard jQuery shorthand for `$(document).ready(function() { ... });`. It ensures that the code inside the function only runs after the browser has fully loaded and parsed the main HTML document (the DOM is ready). This is crucial because the script needs to locate the element with the ID includeHtml before trying to manipulate it.
+Where the `$(function() { ... });` is the standard jQuery shorthand for `$(document).ready(function() { ... });`. It ensures that the code inside the function only runs after the browser has fully loaded and parsed the main HTML document (the DOM is ready). This is crucial because the script needs to locate the element with the ID `includeHtml` before trying to manipulate it.
 
 see an [includes example](https://marcmagransdeabril.github.io/simple-web/includes/main.html).
 
+Advantages:
+* Parsimonious (Minimal code required for the task).
+* Relies on one of the oldest and best-maintained JavaScript libraries (since 2006).
+* The JavaScript code inside the embedded HTML can directly access the parent page's JavaScript context because the content is injected into the parent DOM.
+
+Disadvantages:
+* It is not a fully native HTML/CSS/JavaScript approach, as it relies on a third-party library (jQuery).
+* Adds an external dependency. Although, a native approach is possible [with fetch and Vanilla JavaScript](https://marcmagransdeabril.github.io/simple-web/includes/mainVanillaJS.html).
+
+```html
+<html>
+<head>
+   <script>
+      document.addEventListener('DOMContentLoaded', function() {
+         const targetElement = document.getElementById('includeHtml'); 
+         fetch('included.html')
+           .then(response => response.text()) // Convert Promise to text string
+           .then(htmlContent => {
+               targetElement.innerHTML = htmlContent; // Inject text string
+           });
+      }
+   </script>
+</head>
+<body>
+  <h2>Program to include another HTML file in this HTML using <i>Vanilla JavaScript event listener and fetch</i></h2>
+  <p>Before the <a href="https://marcmagransdeabril.github.io/simple-web/includes/included.html">included.html</a> fragment</p>
+  <div id="includeHtml"></div>
+  <p>After the fragment</p>
+</body>
+</html>
+```
 ## Namespaces 
 
 While technically not a "namespace" in the classic sense, ES Modules are the modern, built-in solution for managing dependencies and preventing global scope pollution. Every module file has its own isolated scope by default.
