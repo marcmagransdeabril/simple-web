@@ -4,19 +4,11 @@ The basic idea is to write a guide to develop frontend applications with a minim
 
 ## Includes
 
-How can we have modular definitions of HTML pages that allows us to reuse, for example, headers and footers?
+How can we have modular definitions of HTML pages allowing the reuse, for example, of headers and footer html.
 
-There are several ways to do it, but they basically fall in 3 categories:
+The simplest solution seems to be the use of an external library, like [jQuery](https://jquery.com/) (although [other Javascript libraries exist](https://css-tricks.com/the-simplest-ways-to-handle-html-includes/).
 
-1. The standard [object element](https://html.spec.whatwg.org/#the-object-element):
-```html
-<figure>
- <object data="clock.html"></object>
- <figcaption>My HTML Clock</figcaption>
-</figure>
-```
-
-2. By injecting an external resource through a callback. For example, using [jQuery](https://jquery.com/) (although there [other Javascript libraries exist](https://css-tricks.com/the-simplest-ways-to-handle-html-includes/).
+We basically inject an external resource to a div element:
 
 ```html
 <html>
@@ -24,16 +16,22 @@ There are several ways to do it, but they basically fall in 3 categories:
    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
    <script>
       $(function() {
-         $("#includeHtml").load("result.html");
+         $("#includeHtml").load("included.html");
       });
    </script>
 </head>
 <body>
-   <h2>Program to include another HTML file in this HTML using <i>JQuery load</i></h2>
-   <div id="includeHtml"></div>
+  <h2>Program to include another HTML file in this HTML using <i>JQuery load</i></h2>
+  <p>Before the <a href="https://marcmagransdeabril.github.io/simple-web/includes/included.html">included.html</a> fragment</p>
+  <div id="includeHtml"></div>
+  <p>After the fragment</p>
 </body>
 </html>
 ```
+
+Where the `$(function() { ... });` is the standard jQuery shorthand for `$(document).ready(function() { ... });`. It ensures that the code inside the function only runs after the browser has fully loaded and parsed the main HTML document (the DOM is ready). This is crucial because the script needs to locate the element with the ID includeHtml before trying to manipulate it.
+
+see an [includes example](https://marcmagransdeabril.github.io/simple-web/includes/main.html).
 
 ## Namespaces 
 
