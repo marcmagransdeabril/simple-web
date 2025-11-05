@@ -7,11 +7,15 @@ The basic idea is to write a guide to develop frontend applications with a minim
  * [HTML Includes](#html-includes)
  * [Namespaces](#namespaces)
  * [(Web)Components](#webcomponents)
+ * [Modules](modules)
+ * [Directives](#directives)
  * [Interceptors](#interceptors)
  * [Templates](#templates)
  * [Multiple environments](#multiple-environments)
  * [Minimization](#minimization)
  * [State management](#state-management)
+ * [Dependency injection](#dependency-injection)
+ * [Unit Testing](#unit-testing)
       
 ## HTML Includes
 
