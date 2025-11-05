@@ -53,7 +53,7 @@ Disadvantages:
            .then(htmlContent => {
                targetElement.innerHTML = htmlContent; // Inject text string
            });
-      }
+      });
    </script>
 </head>
 <body>
@@ -64,6 +64,7 @@ Disadvantages:
 </body>
 </html>
 ```
+
 ## Namespaces 
 
 While technically not a "namespace" in the classic sense, ES Modules are the modern, built-in solution for managing dependencies and preventing global scope pollution. Every module file has its own isolated scope by default.
