@@ -24,6 +24,7 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
  * [State management](#state-management)
  * [Dependency injection](#dependency-injection)
  * [Unit Testing](#unit-testing)
+ * [Epilogue: Douglas Crockford's Insights](#epilogue-douglas-crockfords-insights)
       
 ## HTML Includes
 
@@ -272,6 +273,8 @@ These libraries introduce their own specialized syntax for loops and conditional
 ## Minimization
 
 ## State management
+
+## Epilogue: Douglas Crockford's Insights
 
 Request data --> Change data --> Update web page elements --> post updated data
 
