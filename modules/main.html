@@ -1,13 +1,11 @@
 <html>
 <head>
-   <script type="module">
+   <script type="module" defer>
       "use strict";
       import { helloWorld } from "./module.js";
 
-      document.addEventListener('DOMContentLoaded', () => {
-        const element = document.getElementById('myElement');
-        element.innerHtml=helloWorld();
-});
+      const element = document.getElementById('myElement');
+      element.innerHtml=helloWorld();
       
    </script>
 </head>
