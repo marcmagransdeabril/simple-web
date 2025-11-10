@@ -1,3 +1,5 @@
+"use strict";
+
 export function helloWorld() {  
-  return "<p>Written inside the module.js</p>
+  return "<p>Written inside the module.js</p>";
 }
