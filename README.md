@@ -7,6 +7,7 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
 ## 📄 Table of Contents
 
  * [Modules](modules)
+* [Unit Testing](#unit-testing)
  * [HTML Includes](#html-includes)
  * [Namespaces](#namespaces)
  * [(Web)Components](#webcomponents)
@@ -23,7 +24,6 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
  * [Minimization](#minimization)
  * [State management](#state-management)
  * [Dependency injection](#dependency-injection)
- * [Unit Testing](#unit-testing)
  * [Epilogue: Douglas Crockford's Insights](#epilogue-douglas-crockfords-insights)
       
 ## Type Checking and Linting
@@ -71,6 +71,10 @@ See a [module example](https://marcmagransdeabril.github.io/simple-web/includes/
 For more information about modules, you can check [Mozilla documentation about JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
 
 ## Unit Testing
+
+Once you have modules, the next step is how to test them. 
+
+For the sake of concisnsess, I would focus on threee scenarios: black box, mocking, dependency injection, browser.
 
 ## HTML Includes
 
