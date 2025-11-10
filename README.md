@@ -7,7 +7,7 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
 ## 📄 Table of Contents
 
  * [Modules](modules)
-* [Unit Testing](#unit-testing)
+ * [Unit Testing](#unit-testing)
  * [HTML Includes](#html-includes)
  * [Namespaces](#namespaces)
  * [(Web)Components](#webcomponents)
@@ -75,6 +75,65 @@ For more information about modules, you can check [Mozilla documentation about J
 Once you have modules, the next step is how to test them. 
 
 For the sake of concisnsess, I would focus on threee scenarios: black box, mocking, dependency injection, browser.
+
+### JavaScript Module Testing
+
+1. Initilize `npm` package manager and install the [Vitest](https://vitest.dev/) dependency (note: the most widely used [Jest](https://jestjs.io/) has not been used for not suppoting standard ES6 modules, and requiring extra configuration for its support):
+```bash
+# Initialize package.json if you haven't already
+npm init -y
+
+# Install Jest as a dev dependency
+npm install --save-dev vitest
+```
+
+2. Add `vitest` in the `package.json` `test` target script:
+```json
+
+  "name": "js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vitest": "^4.0.8"
+  }
+}
+```
+
+3. Create a JavaScript module like the following [math.js](https://marcmagransdeabril.github.io/simple-web/unit-test/js/math.js):
+```JavaScript
+// Simple math functions to test
+export function add(a, b) {
+  return a + b;
+}
+```
+
+4. Create a test file for the module [math.test.js](https://marcmagransdeabril.github.io/simple-web/unit-test/js/math.test.js):
+```JavaScript
+import  { add } from './math.js';
+import { test, expect, describe } from 'vitest';
+
+describe('Math functions', () => {
+  // Test the add function
+  test('adds 1 + 2 to equal 3', () => {
+    expect(add(1, 2)).toBe(3);
+  });
+
+  test('adds negative numbers correctly', () => {
+    expect(add(-1, -2)).toBe(-3);
+  });
+
+});
+```
+
+### Browser Mock-up Testing
+
 
 ## HTML Includes
 
