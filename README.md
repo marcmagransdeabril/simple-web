@@ -8,6 +8,7 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
 
  * [Modules](modules)
  * [Unit Testing](#unit-testing)
+ ** [JavaScript Module Testing](#javascript-module-testing)
  * [HTML Includes](#html-includes)
  * [Namespaces](#namespaces)
  * [(Web)Components](#webcomponents)
