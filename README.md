@@ -6,10 +6,10 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
 
 ## 📄 Table of Contents
 
+ * [Modules](modules)
  * [HTML Includes](#html-includes)
  * [Namespaces](#namespaces)
  * [(Web)Components](#webcomponents)
- * [Modules](modules)
  * [Data binding](#data-binding)
  * [Reactivity](#reactivity)
  * [Pipes](#pipes)
@@ -29,6 +29,48 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
 ## Type Checking and Linting
 
 For example, innetHtml or innerHTML
+
+## Modules
+
+A software module is a self-contained part of a computer program that performs a specific function or task. It helps organize complex programs by breaking them down into manageable sections, making the code easier to understand and reuse.
+
+Since EcmaScript standard 6 (2015) JavaScript also has modules which allow to structure complex applications from simpler parts as most programming languages. 
+
+```html
+<html>
+<head>
+   <script type="module" defer>
+      "use strict";
+      import { helloWorld } from "./module.js";
+
+      const element = document.getElementById('includeHtml');
+      element.innerHTML=helloWorld();
+      
+   </script>
+</head>
+<body>
+  <h2>Program to use a Javascript <i>Module</i></h2>
+  <p>Before the inclusion</p>
+  <div id="includeHtml"></div>
+  <p>After the fragment</p>
+</body>
+</html>
+```
+
+```JavaScript
+"use strict";
+
+export function helloWorld() {  
+  return "<p>innerHTML provided by the <var>helloWorld()</var> method exported from module.js</p>";
+}
+```
+
+
+See a [module example](https://marcmagransdeabril.github.io/simple-web/includes/main.html).
+
+For more information about modules, you can check [Mozilla documentation about JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
+
+## Unit Testing
 
 ## HTML Includes
 
