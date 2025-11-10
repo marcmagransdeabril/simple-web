@@ -6,7 +6,8 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
 
 ## 📄 Table of Contents
 
- * [Modules](modules)
+ * [Modules](#modules)
+ * [Type Checking and Linting](#type-checking-and-linting)
  * [Unit Testing](#unit-testing)
    * [JavaScript Module Testing](#javascript-module-testing)
  * [HTML Includes](#html-includes)
