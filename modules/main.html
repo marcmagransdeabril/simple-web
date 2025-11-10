@@ -2,10 +2,8 @@
 <head>
    <script>
       "use strict";
-      
-      $(function() {
-         $("#includeHtml").load("included.html");
-      });
+      import { helloWorld } from "module.js";
+      document.getElementById("includeHtml").innerHtml=hellowWorld();
    </script>
 </head>
 <body>
