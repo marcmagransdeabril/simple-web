@@ -28,9 +28,6 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
  * [Dependency injection](#dependency-injection)
  * [Epilogue: Douglas Crockford's Insights](#epilogue-douglas-crockfords-insights)
       
-## Type Checking and Linting
-
-For example, innetHtml or innerHTML
 
 ## Modules
 
@@ -71,6 +68,10 @@ export function helloWorld() {
 See a [module example](https://marcmagransdeabril.github.io/simple-web/includes/main.html).
 
 For more information about modules, you can check [Mozilla documentation about JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
+
+## Type Checking and Linting
+
+For example, innetHtml or innerHTML
 
 ## Unit Testing
 
