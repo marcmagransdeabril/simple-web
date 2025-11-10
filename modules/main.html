@@ -3,7 +3,12 @@
    <script type="module">
       "use strict";
       import { helloWorld } from "./module.js";
-      document.getElementById("includeHtml").innerHtml=helloWorld();
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const element = document.getElementById('myElement');
+        element.innerHtml=helloWorld();
+});
+      
    </script>
 </head>
 <body>
