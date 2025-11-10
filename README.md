@@ -26,6 +26,10 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
  * [Unit Testing](#unit-testing)
  * [Epilogue: Douglas Crockford's Insights](#epilogue-douglas-crockfords-insights)
       
+## Type Checking and Linting
+
+For example, innetHtml or innerHTML
+
 ## HTML Includes
 
 How can we have modular definitions of HTML pages, allowing the reuse, for example, of header and footer HTML?
