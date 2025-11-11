@@ -1,0 +1,25 @@
+{
+  "name": "linting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint:html": "htmlhint *.html",
+    "lint:css": "stylelint **/*.css",
+    "lint:js": "eslint **/*.js",
+    "lint": "npm run lint:html && npm run lint:css && npm run lint:js",
+    "fix:css": "stylelint **/*.css --fix",
+    "fix:js": "eslint **/*.js --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "htmlhint": "^1.7.1",
+    "stylelint": "^16.25.0",
+    "stylelint-config-standard": "^39.0.1"
+  }
+}

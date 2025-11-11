@@ -1,0 +1,44 @@
+/* Duplicate selectors */
+.container {
+    background-color: red;
+}
+
+.container {
+    color: blue;
+}
+
+/* Invalid property */
+.box {
+    colro: green;
+    margin: 10 px;  /* Space in unit */
+    padding: 5px 10px 15px 20px 25px;  /* Too many values */
+}
+
+/* Missing semicolon */
+.header {
+    font-size: 20px
+    font-weight: bold;
+}
+
+/* Vendor prefixes without standard */
+.fancy {
+    -webkit-transform: rotate(45deg);
+    /* Missing standard transform property */
+}
+
+/* Empty rule */
+.empty {
+    
+}
+
+/* Using !important unnecessarily */
+.forced {
+    color: blue !important;
+}
+
+/* Inconsistent units */
+.mixed {
+    margin: 10px;
+    padding: 1em;
+    border: 2rem solid black;
+}
