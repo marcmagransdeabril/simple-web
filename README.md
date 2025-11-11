@@ -141,7 +141,7 @@ export default {
 
 6. Finally run it:
 ```bash
-npm lint
+npm run lint
 ```
 ## Unit Testing
 
