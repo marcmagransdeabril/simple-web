@@ -31,10 +31,13 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
 
 ## Modules
 
-A software module is a self-contained part of a computer program that performs a specific function or task. It helps organize complex programs by breaking them down into manageable sections, making the code easier to understand and reuse.
+A software module is a self-contained part of a computer program that performs a specific function or task and hides implementation specific details from the client using the module. It helps organize complex programs by breaking them down into manageable sections, making the code easier to understand and reuse.
 
-Since EcmaScript standard 6 (2015) JavaScript also has modules which allow to structure complex applications from simpler parts as most programming languages. 
+This obvious concept was invented just 40 years ago by David Parnas [On the Criteria To Be Used in Decomposing Systems into Modules](https://dl.acm.org/doi/10.1145/361598.361623). Parnas introduced the critical concept of "Information Hiding" as the core criterion for defining a good module.
 
+Then 30 years after D. PArnas invention, and just 20 years afetr the creation of JavaScript, [EcmaScript standard 6 (2015) introduced modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
+
+In the case below, a simple JavaScript module is used by an HTML page:
 ```html
 <html>
 <head>
@@ -56,6 +59,7 @@ Since EcmaScript standard 6 (2015) JavaScript also has modules which allow to st
 </html>
 ```
 
+The JavaScript module only exposes the `helloWorld()` interface hiding the rest of the module:
 ```JavaScript
 "use strict";
 
@@ -66,8 +70,6 @@ export function helloWorld() {
 
 
 See a [module example](https://marcmagransdeabril.github.io/simple-web/includes/main.html).
-
-For more information about modules, you can check [Mozilla documentation about JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
 
 ## Type Checking and Linting
 
