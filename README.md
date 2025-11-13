@@ -73,11 +73,7 @@ See a [module example](https://marcmagransdeabril.github.io/simple-web/includes/
 
 ## Type Checking and Linting
 
-Errors in JavaScript, HTML, and CSS can only be observed once we run them in the browser, and specially with JavaScript, being a dynamical language, the errors are only triggered when specific parts of the code are executed. 
-
-The situation improved considerably after the `use strict` EcmaScript 6 mode was adopted by all major browsers around 2018. However, a linter it still offers advantags detecting the errors before execution.
-
-In order to install and execute a linter in your project:
+Errors in JavaScript, HTML, and CSS can often only be observed when the code is run in the browser. JavaScript, being a dynamic language, has errors that are only triggered when specific parts of the code are executed. The situation improved considerably after the `use strict` mode was adopted by all major browsers around 2018. However, a linter still offers advantages by detecting errors before execution. To install and execute a linter in your project:
 
 1. Install the lint packages using `npm` or similar:
 ```bash
@@ -88,7 +84,7 @@ npm install --save-dev stylelint stylelint-config-standard htmlhint eslint
 2. Add the following scripts to the `package.json`:
 ```json
 "scripts": {
-    "lint:html": "htmlhint *.html",
+    "lint:html": "htmlhint **/*.html",
     "lint:css": "stylelint **/*.css",
     "lint:js": "eslint **/*.js",
     "lint": "npm run lint:html && npm run lint:css && npm run lint:js",
@@ -97,7 +93,7 @@ npm install --save-dev stylelint stylelint-config-standard htmlhint eslint
   }
 ```
 
-3. Configure CSS linter by adding the `stylelint.config.mjs` configuration file in the project root:
+3. Configure the CSS linter by adding the `stylelint.config.mjs` configuration file in the project root:
 ```JavaScript
 /** @type {import('stylelint').Config} */
 export default {
@@ -105,7 +101,7 @@ export default {
 };
 ```
 
-4. Configure the HTML linter by adding the `.htmlhintrc` configuration file in the project root:
+4. Configure the HTML linter by adding the `.htmlhintrc` configuration file in the project root (or keep it empty to set the defaults):
 ```json
 {
   "tagname-lowercase": true,
@@ -116,12 +112,12 @@ export default {
   "id-unique": true,
   "src-not-empty": true,
   "alt-require": true,
-  "href-abs-or-rel": false,
+  "href-abs-or-rel": true,
   "attr-no-duplication": true
 }
 ```
 
-5. Configure the JavaScript linter by adding the `` configuration file in the project root:
+5. Configure the JavaScript linter by adding the `eslint.config.mjs` configuration file in the project root:
 ```json
 {
   "env": {
@@ -141,10 +137,11 @@ export default {
 }
 ```
 
-6. Finally run it:
+6. Finally, run the linters:
 ```bash
 npm run lint
 ```
+
 ## Unit Testing
 
 Once you have modules, the next step is how to test them. 
