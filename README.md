@@ -203,6 +203,125 @@ describe('Math functions', () => {
 
 });
 ```
+### JavaScript and HTML/DOM Unit Tests
+
+If the previous section shows how to perform unit testing of a JavaScript module, in this section we go further and we show how a given JavaScript module interacts with the DOM generated out an HTML page using [jsdom](https://github.com/jsdom/jsdom) library. This is equivalent to the `.spec.ts` files in Angular were unit tests can retrieve DOM elements, test basic events (Click, input, submit, Keyboard events, Custom events, or Event bubbling), and even chec in certain CSS classes are loaded. 
+
+1. Initilize `npm` package manager and install the [Vitest](https://vitest.dev/) and [jsdom](https://github.com/jsdom/jsdom) dependencies:
+```bash
+# Initialize package.json if you haven't already
+npm init -y
+
+# Install Jest as a dev dependency
+npm install --save-dev vitest jsdom
+```
+
+2. As before, add `vitest` in the `package.json` `test` target script:
+```json
+
+  "name": "js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vitest": "^4.0.8"
+  }
+}
+```
+
+3. Create a simple counter HTML/CSS/JS page:
+
+3.1. HTML Page with button to count clicks: 
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Counter App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Counter: <span id="counter">0</span></h1>
+  <button id="increment-btn" class="btn">Increment</button>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
+```
+
+3.2. CSS file with a button style and an onhover behaviour:
+```CSS
+.btn {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+```
+
+3.3. A JavaScript module to count clicks:
+```JavaScript
+export function increment() {
+  const counter = document.getElementById('counter');
+  const currentValue = parseInt(counter.textContent);
+  counter.textContent = currentValue + 1;
+  return currentValue + 1;
+}
+
+if (typeof window !== 'undefined') {
+  document.getElementById('increment-btn')?.addEventListener('click', increment);
+}
+```
+
+4. Create a unit test to check that the counter element is actually updated on click, that the `increment()` function in the module is working, and finally, that the `.btn` class is present (note that `jsdom` cannot test the actual CSS styles (colors, padding, etc.) because it doesn't have a rendering engine. The CSS file is referenced but not parsed/applied):
+```JavaScript
+import { describe, it, expect, beforeEach } from 'vitest';
+import { JSDOM } from 'jsdom';
+import { increment } from './app.js';
+import fs from 'fs';
+
+describe('CounterApp', () => {
+  beforeEach(() => {
+    const html = fs.readFileSync('./index.html', 'utf-8');
+    const dom = new JSDOM(html);
+    global.document = dom.window.document;
+    document.getElementById('increment-btn').addEventListener('click', increment);
+  });
+
+  it('should retrieve counter element', () => {
+    expect(document.getElementById('counter').textContent).toBe('0');
+  });
+
+  it('should have btn CSS class on button', () => {
+    const button = document.getElementById('increment-btn');
+    expect(button.classList.contains('btn')).toBe(true);
+  });
+
+  it('should increment on button click', () => {
+    document.getElementById('increment-btn').click();
+    expect(document.getElementById('counter').textContent).toBe('1');
+  });
+
+  it('should execute increment function', () => {
+    expect(increment()).toBe(1);
+  });
+});
+```
+
+5. Execute:
+```bash
+npm test
+```
 
 ### Browser Mock-up Testing
 
