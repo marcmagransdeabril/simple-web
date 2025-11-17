@@ -238,7 +238,7 @@ npm install --save-dev vitest jsdom
 
 3. Create a simple counter HTML/CSS/JS page:
 
-3.1. HTML Page with button to count clicks: 
+3.1. [HTML Page](https://marcmagransdeabril.github.io/simple-web/unit-test/js-html/app.html) with button to count clicks: 
 ```HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -255,7 +255,7 @@ npm install --save-dev vitest jsdom
 </html>
 ```
 
-3.2. CSS file with a button style and an onhover behaviour:
+3.2. [CSS file](https://marcmagransdeabril.github.io/simple-web/unit-test/js-html/app.css) with a button style and an onhover behaviour:
 ```CSS
 .btn {
   padding: 10px 20px;
@@ -270,7 +270,7 @@ npm install --save-dev vitest jsdom
 }
 ```
 
-3.3. A JavaScript module to count clicks:
+3.3. A JavaScript module to add an `onclick()` event handler and a click counter:
 ```JavaScript
 export function increment() {
   const counter = document.getElementById('counter');
