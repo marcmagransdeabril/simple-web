@@ -10,6 +10,7 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
  * [Type Checking and Linting](#type-checking-and-linting)
  * [Unit Testing](#unit-testing)
    * [JavaScript Module Testing](#javascript-module-testing)
+   * [JavaScript and HTML/DOM Unit Tests](#javascript-and-html-dom-unit-tests)
  * [HTML Includes](#html-includes)
  * [Namespaces](#namespaces)
  * [(Web)Components](#webcomponents)
