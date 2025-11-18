@@ -143,7 +143,7 @@ export default {
 npm run lint
 ```
 
-## Unit Testing
+## Automated Testing
 
 Once you have modules, the next step is how to test them. 
 
@@ -204,7 +204,117 @@ describe('Math functions', () => {
 
 });
 ```
-### JavaScript and HTML/DOM Unit Tests
+
+### Unit Testing and Mocking
+
+Sometimes we want to test a JavaScript module that depends on a remote service. However, we do not want to actually test the remote service, just the business logic of the module given a known input/ouput contract with the remote service.
+
+Let's imagine a simple `accounts.js` module that retrieves the deposits from an API and checks if the balance is positive or negative:
+```JavaScript
+// Private - non-exported
+const _fetchAccount = async (account) => {
+    const response = await fetch(`https://www.example.com/accounts/${account}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data;
+};
+
+// Public - exported
+export const checkBalance = async (account) => {
+    const response = await _fetchAccount(account);
+    return response.amountCredits > response.amountDebits;
+};
+```
+
+Ideally, we would like to mock the `_fetchAccount()` function in the unit test. However, this won't work as the call to `_fetchAccount()` inside `checkBalance()` :
+```JavaScript
+const response = await _fetchAccount(account);
+```
+
+Uses a direct reference to the function, instead of the mocked function from the test that will be somethign like `accounts._fetchAccount()`.
+
+In that situation, there are two parsimonious solutions. Either we separate the `_fetchAccount()` and `checkBalance()` in different modules, one for the service retrieval, and the other for the business logic, or we directly mock the global `fetch()` function.
+
+Most likely, the first approach will scale better as the code grows, but for the sake of the exercise, let's just mock the global `fetch()` function:
+
+```JavaScript
+// accountModule.test.js
+import { describe, it, expect, beforeEach, vi } from "vitest";
+import { checkBalance } from "./accounts.js";
+
+global.fetch = vi.fn();
+
+describe("AccountModule - checkBalance (3 Main Cases)", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("should return true when amountCredits (1000) > amountDebits (100)", async () => {
+    const mockResponse = {
+      amountCredits: 1000,
+      amountDebits: 100,
+    };
+
+    global.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockResponse,
+    });
+
+    const result = await checkBalance("account123");
+
+    expect(result).toBe(true);
+    expect(global.fetch).toHaveBeenCalledWith(
+      "https://www.example.com/deposits/account123"
+    );
+  });
+
+  it("should return false when amountCredits (100) < amountDebits (1000)", async () => {
+    const mockResponse = {
+      amountCredits: 100,
+      amountDebits: 1000,
+    };
+
+    global.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockResponse,
+    });
+
+    const result = await checkBalance("account123");
+
+    expect(result).toBe(false);
+    expect(global.fetch).toHaveBeenCalledWith(
+      "https://www.example.com/deposits/account123"
+    );
+  });
+
+  it("should return false when response has error instead of amounts", async () => {
+    const mockResponse = {
+      error: "this is non-conformant",
+    };
+
+    global.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockResponse,
+    });
+
+    const result = await checkBalance("account123");
+
+    // undefined > undefined evaluates to false
+    expect(result).toBe(false);
+    expect(global.fetch).toHaveBeenCalledWith(
+      "https://www.example.com/deposits/account123"
+    );
+  });
+});
+```
+
+### Application Testing with Injection
+
+### JavaScript and HTML/DOM Testing 
 
 If the previous section shows how to perform unit testing of a JavaScript module, in this section we go further and we show how a given JavaScript module interacts with the DOM generated out an HTML page using [jsdom](https://github.com/jsdom/jsdom) library. This is equivalent to the `.spec.ts` files in Angular were unit tests can retrieve DOM elements, test basic events (Click, input, submit, Keyboard events, Custom events, or Event bubbling), and even chec in certain CSS classes are loaded. 
 
@@ -324,7 +434,10 @@ describe('CounterApp', () => {
 npm test
 ```
 
-### Browser Mock-up Testing
+
+### End-to-end Testing
+
+
 
 
 ## HTML Includes
