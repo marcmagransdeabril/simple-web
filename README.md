@@ -179,7 +179,7 @@ npm install --save-dev vitest
 }
 ```
 
-3. Create a JavaScript module like the following [math.js](https://marcmagransdeabril.github.io/simple-web/unit-test/js/math.js):
+3. Create a JavaScript module like the following [math.js](https://github.com/marcmagransdeabril/simple-web/tree/main/unit-tests/js/math.js):
 ```JavaScript
 // Simple math functions to test
 export function add(a, b) {
@@ -187,7 +187,7 @@ export function add(a, b) {
 }
 ```
 
-4. Create a test file for the module [math.test.js](https://marcmagransdeabril.github.io/simple-web/unit-test/js/math.test.js):
+4. Create a test file for the module [math.test.js](https://github.com/marcmagransdeabril/simple-web/tree/main/unit-tests/js/math.test.js):
 ```JavaScript
 import  { add } from './math.js';
 import { test, expect, describe } from 'vitest';
@@ -209,7 +209,7 @@ describe('Math functions', () => {
 
 Sometimes we want to test a JavaScript module that depends on a remote service. However, we do not want to actually test the remote service, just the business logic of the module given a known input/ouput contract with the remote service.
 
-Let's imagine a simple [accounts.js](https://marcmagransdeabril.github.io/simple-web/unit-test/js-mock/accounts.js) module that retrieves the deposits from an API and checks if the balance is positive or negative:
+Let's imagine a simple [accounts.js](https://github.com/marcmagransdeabril/simple-web/tree/main/unit-tests/js-mock/accounts.js) module that retrieves the deposits from an API and checks if the balance is positive or negative:
 ```JavaScript
 // Private - non-exported
 const _fetchAccount = async (account) => {
@@ -313,6 +313,7 @@ describe("AccountModule - checkBalance (3 Main Cases)", () => {
 ```
 
 See the complete [example](https://github.com/marcmagransdeabril/simple-web/tree/main/unit-tests/js-mock).
+
 ### Application Testing with Injection
 
 ### JavaScript and HTML/DOM Testing 
