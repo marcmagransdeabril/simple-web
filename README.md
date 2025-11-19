@@ -10,6 +10,7 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
  * [Type Checking and Linting](#type-checking-and-linting)
  * [Unit Testing](#unit-testing)
    * [JavaScript Module Testing](#javascript-module-testing)
+   * [JavaScript Unit Testing and Mocking](#javaScript-unit-testing-and-mocking)
    * [JavaScript and HTML/DOM Unit Tests](#javascript-and-html-dom-unit-tests)
  * [HTML Includes](#html-includes)
  * [Namespaces](#namespaces)
@@ -27,6 +28,7 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
  * [Minimization](#minimization)
  * [State management](#state-management)
  * [Dependency injection](#dependency-injection)
+ * [i18n and Translation pipes](#i18n)
  * [Epilogue: Douglas Crockford's Insights](#epilogue-douglas-crockfords-insights)
       
 
