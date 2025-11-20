@@ -7,13 +7,14 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
 ## 📄 Table of Contents
 
  * [Modules](#modules)
+ * [Namespaces](#namespaces)
  * [Type Checking and Linting](#type-checking-and-linting)
  * [Unit Testing](#unit-testing)
    * [JavaScript Module Testing](#javascript-module-testing)
    * [JavaScript Unit Testing and Mocking](#javaScript-unit-testing-and-mocking)
    * [JavaScript and HTML/DOM Unit Tests](#javascript-and-html-dom-unit-tests)
+   * [End-to-end Testing](#end-to-end-testing)
  * [HTML Includes](#html-includes)
- * [Namespaces](#namespaces)
  * [(Web)Components](#webcomponents)
  * [Data binding](#data-binding)
  * [Reactivity](#reactivity)
@@ -73,6 +74,37 @@ export function helloWorld() {
 
 
 See a [module example](https://marcmagransdeabril.github.io/simple-web/includes/main.html).
+
+## Namespaces 
+
+While technically not a "namespace" in the classic sense, ES Modules are the modern, built-in solution for managing dependencies and preventing global scope pollution. Every module file has its own isolated scope by default.
+
+Implementation (File 1: math.js)
+```JavaScript
+
+// math.js - Everything here is private unless exported
+const PI = 3.14159;
+
+export function add(a, b) {
+    return a + b;
+}
+
+export function subtract(a, b) {
+    return a - b;
+}
+```
+
+Usage (File 2: main.js)
+```JavaScript
+
+// main.js - Import only what you need
+import { add, subtract } from './math.js';
+// To import everything under a namespace-like object:
+import * as MathOps from './math.js'; 
+
+const sum = add(5, 3); // 8
+const diff = MathOps.subtract(10, 4); // 6
+```
 
 ## Type Checking and Linting
 
@@ -144,6 +176,8 @@ export default {
 ```bash
 npm run lint
 ```
+
+
 
 ## Automated Testing
 
@@ -316,8 +350,6 @@ describe("AccountModule - checkBalance (3 Main Cases)", () => {
 
 See the complete [example](https://github.com/marcmagransdeabril/simple-web/tree/main/unit-tests/js-mock).
 
-### Application Testing with Injection
-
 ### JavaScript and HTML/DOM Testing 
 
 If the previous section shows how to perform unit testing of a JavaScript module, in this section we go further and we show how a given JavaScript module interacts with the DOM generated out an HTML page using [jsdom](https://github.com/jsdom/jsdom) library. This is equivalent to the `.spec.ts` files in Angular were unit tests can retrieve DOM elements, test basic events (Click, input, submit, Keyboard events, Custom events, or Event bubbling), and even chec in certain CSS classes are loaded. 
@@ -369,7 +401,7 @@ npm install --save-dev vitest jsdom
 </html>
 ```
 
-3.2. [CSS file](https://marcmagransdeabril.github.io/simple-web/unit-test/js-html/app.css) with a button style and an onhover behaviour:
+3.2. [CSS file](https://github.com/marcmagransdeabril/simple-web/tree/main/unit-tests/js-html/app.css) with a button style and an onhover behaviour:
 ```CSS
 .btn {
   padding: 10px 20px;
@@ -441,6 +473,32 @@ npm test
 
 ### End-to-end Testing
 
+The minimal example of a Vanilla HTML/CSS/JavaScript application with an end-to-end test could look like the [e2e2-test application](https://github.com/marcmagransdeabril/simple-web/tree/main/unit-tests/e2e-test):
+```
+e2e-test/
+├── index.html
+├── styles.css
+├── src/
+│   ├── counter.js
+│   └── app.js
+├── tests/
+│   └── counter.e2e.spec.js
+├── package.json
+└── playwright.config.js
+```
+
+We will need to install playwright and its dependencies:
+```bash
+npx playwright install-deps
+npm install
+```
+
+And finally to just tesT:
+```bash
+npm test
+```
+
+In fact, this is exactly the same for an Angular, Vue.js, or React.js application.
 
 
 
@@ -507,36 +565,7 @@ Disadvantages:
 </html>
 ```
 
-## Namespaces 
 
-While technically not a "namespace" in the classic sense, ES Modules are the modern, built-in solution for managing dependencies and preventing global scope pollution. Every module file has its own isolated scope by default.
-
-Implementation (File 1: math.js)
-```JavaScript
-
-// math.js - Everything here is private unless exported
-const PI = 3.14159;
-
-export function add(a, b) {
-    return a + b;
-}
-
-export function subtract(a, b) {
-    return a - b;
-}
-```
-
-Usage (File 2: main.js)
-```JavaScript
-
-// main.js - Import only what you need
-import { add, subtract } from './math.js';
-// To import everything under a namespace-like object:
-import * as MathOps from './math.js'; 
-
-const sum = add(5, 3); // 8
-const diff = MathOps.subtract(10, 4); // 6
-```
 
 ## (Web)Components
 
