@@ -1,0 +1,15 @@
+{
+  "name": "webcomponents",
+  "version": "1.0.0",
+  "main": "data-table.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  }
+}

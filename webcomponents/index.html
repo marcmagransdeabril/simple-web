@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Table Web Component Example</title>
+</head>
+<body>
+  <h1>Data Table Web Component</h1>
+
+  <button onclick="loadUsers()">Load Users</button>
+  <button onclick="loadProducts()">Load Products</button>
+  <button onclick="clearTable()">Clear</button>
+
+  <br/>
+  <br/>
+
+  <data-table id="myTable" data-source="https://jsonplaceholder.typicode.com/users">
+></data-table>
+
+  <script src="data-table.js"></script>
+  
+  <script>
+    const table = document.getElementById('myTable');
+    
+    function loadUsers() {
+      table.data = [
+        { id: 1, name: 'John Doe', email: 'john@example.com', age: 30 },
+        { id: 2, name: 'Jane Smith', email: 'jane@example.com', age: 25 },
+        { id: 3, name: 'Bob Johnson', email: 'bob@example.com', age: 35 }
+      ];
+    }
+    
+    function loadProducts() {
+      table.data = [
+        { sku: 'LAPTOP-001', product: 'ThinkPad X1', price: '$1299', stock: 15 },
+        { sku: 'MOUSE-042', product: 'Wireless Mouse', price: '$29', stock: 150 },
+        { sku: 'KEYB-103', product: 'Mechanical Keyboard', price: '$89', stock: 45 }
+      ];
+    }
+    
+    function clearTable() {
+      table.data = [];
+    }
+
+    // Load initial data
+    loadUsers();
+  </script>
+</body>
+</html>

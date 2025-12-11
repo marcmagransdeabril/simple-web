@@ -25,7 +25,7 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
  * [Directives](#directives)
  * [Interceptors](#interceptors)
  * [Templates](#templates)
- * [Multiple environments](#multiple-environments)
+ * [Multiple Staging Environments](#multiple-staging-environments)
  * [Minimization](#minimization)
  * [State management](#state-management)
  * [Dependency injection](#dependency-injection)
@@ -569,9 +569,59 @@ Disadvantages:
 
 ## (Web)Components
 
-Modularize the design by using components.
+One of the attractive features of Angular is its component-based architecture. But how do these framework components compare to Web Components - the browser's native component standard?
 
-What about directives?
+Web Components allow you to create custom, reusable HTML elements using vanilla JavaScript. You can create a custom component by defining a class that extends `HTMLElement` and registering it with the browser.
+
+Let's look at a practical example - a `<data-table>` component that populates an HTML table from JSON data:
+
+```JavaScript
+class DataTable extends HTMLElement {
+  constructor() {
+    super();
+    // Create Shadow DOM for encapsulation
+    this.attachShadow({ mode: 'open' });
+  }
+  
+  connectedCallback() {
+    // Render content when element is added to DOM
+    this.render();
+  }
+  
+  render() {
+    const style = `
+      <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { padding: 8px; border: 1px solid #ddd; }
+      </style>
+    `;
+    
+    const content = `
+      <table>
+        <!-- table content here -->
+      </table>
+    `;
+    
+    // Update the Shadow DOM
+    this.shadowRoot.innerHTML = style + content;
+  }
+}
+
+// Register the custom element
+customElements.define('data-table', DataTable);
+```
+
+Now Use It Like Any HTML Element:
+```HTML
+<data-table data-src="users.json"></data-table>
+```
+
+Note first, how the customElements.define() API registers your component, making `<data-table>` a valid HTML element that the browser understands, and how we update the shadowRoot during the `render()` instead of directly modifying innerHTML.
+
+Why do we use the shadow DOM? The styles defined within the Shadow DOM are encapsulated - they only apply to elements inside this component, and therefore, don't leak into the global CSS namespace. 
+
+See the [example](https://marcmagransdeabril.github.io/simple-web/webcomponents/inex.html).
+
 
 ## Interceptors
 
