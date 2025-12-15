@@ -17,6 +17,8 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
  * [HTML Includes](#html-includes)
  * [(Web)Components](#webcomponents)
  * [Monkey Patching and Intereceptions (and Why you do not need Inversion of Control and Dependency Injection in JS)](#monkey-patching-and-interceptors-or-why-you-do-not-need-inversion-of-control-in-js)
+   * [Dependency Injection](#dependency-injection)
+   * [Moneky Patching, Moking, and Interception](#moneky-patching-moking-and-interception)
  * [Data binding](#data-binding)
  * [Reactivity](#reactivity)
  * [Pipes](#pipes)
@@ -626,96 +628,77 @@ See the [example](https://marcmagransdeabril.github.io/simple-web/webcomponents/
 
 ## Monkey Patching and Interceptors (or why you do not need Inversion of Control and Dependency Injection in JS)
 
-In JavaScript, network requests are primarily handled by two native APIs: XMLHttpRequest (the older standard) and the Fetch API (the modern standard).
+There are two potential approaches in JavaScript to control dependencies for testing, configuration, and extensibility.
 
-To create an interceptor, you essentially "monkey patch" or wrap these native functions to execute custom logic before the request is sent and/or after the response is received.
+**Dependency Injection** makes dependencies explicit by passing them as parameters, promoting loose coupling and testability.
 
-1. Intercepting the Modern Fetch API
-The fetch function is promise-based, making it relatively straightforward to wrap.
+**Monkey Patching** modifies objects/functions at runtime to change behavior, leveraging JavaScript's dynamic nature to intercept or replace functionality without changing call sites.
 
-JavaScript
+### Dependency Injection
 
-// Store the original fetch function
+In JavaScript we can implement dependency injection like any other object-oriented programming language:
+
+```javascript
+class UserService {
+  constructor(logger, database) {
+    this.logger = logger;
+    this.database = database;
+  }
+  
+  getUser(id) {
+    this.logger.log(`Fetching user ${id}`);
+    return this.database.query(`SELECT * FROM users WHERE id = ${id}`);
+  }
+}
+
+// Usage
+const service = new UserService(new Logger(), new Database());
+```
+
+But we can also inject dependencies as function parameters:
+```JavaScript
+function notifyUser(user, notificationService) {
+  notificationService.send(user.contact, 'Hello!', 'Welcome');
+}
+
+// Usage
+notifyUser(user, emailService); // Inject email service
+notifyUser(user, smsService);   // Or inject SMS service
+```
+
+### Moneky Patching, Moking, and Interception
+
+But given the dynamic and prototype-based nature of JavaScript, it is even easier to inject functionality at any level.
+
+The typical example is adding interceptor functionality to the global `fetch` function:
+
+```JavaScript
+// Save original fetch
 const originalFetch = window.fetch;
 
-// Define your custom interceptor function
-window.fetch = function (resource, options) {
-    // --- REQUEST INTERCEPTION LOGIC (executed BEFORE the request is sent) ---
-    console.log('Intercepting request:', resource);
+// Override global fetch
+window.fetch = async function(url, options = {}) {
+  // Request interception
+  console.log('→ Intercepted request:', url);
+  options.headers = { ...options.headers, 'X-Custom-Header': 'value' };
 
-    // 1. Modify the request: Add a standard header (e.g., for authentication)
-    const newOptions = {
-        ...options,
-        headers: {
-            'Authorization': 'Bearer YOUR_TOKEN_HERE',
-            ...(options && options.headers)
-        }
-    };
+  try {
+    const response = await originalFetch(url, options);
     
-    // Call the original fetch function
-    return originalFetch(resource, newOptions)
-        .then(response => {
-            // --- RESPONSE INTERCEPTION LOGIC (executed AFTER the response is received) ---
-            
-            // 2. Handle global errors (e.g., log out on 401 Unauthorized)
-            if (response.status === 401) {
-                console.error('401 Unauthorized: User must be logged out or token refreshed.');
-                // Add logic to redirect, refresh token, etc.
-            }
-
-            // You must clone the response if you need to read the body here,
-            // as the body can only be read once.
-            // const responseClone = response.clone(); 
-            
-            return response;
-        })
-        .catch(error => {
-            // --- ERROR INTERCEPTION LOGIC (executed if the network request fails) ---
-            console.error('Network request failed:', error);
-            throw error; // Re-throw the error so the calling code can handle it
-        });
-};
-2. Intercepting XMLHttpRequest (XHR)
-While less common for new projects, many older libraries and some browser features still rely on XMLHttpRequest. Intercepting it is more complex as it involves overriding prototype methods.
-
-JavaScript
-
-// Store the original open and send methods
-const originalOpen = XMLHttpRequest.prototype.open;
-const originalSend = XMLHttpRequest.prototype.send;
-
-// 1. Intercept `open()` to read/modify the request URL and method
-XMLHttpRequest.prototype.open = function(method, url, ...rest) {
-    console.log(`XHR Request about to open: ${method} ${url}`);
+    // Response interception
+    console.log('← Intercepted response:', response.status);
     
-    // You could modify the URL here before calling the original open
-    // this.requestURL = url; // Store for later use
-    
-    originalOpen.apply(this, [method, url, ...rest]);
+    return response;
+  } catch (error) {
+    console.error('Intercepted error:', error);
+    throw error;
+  }
 };
 
-// 2. Intercept `send()` to read/modify request data and add headers
-XMLHttpRequest.prototype.send = function(data) {
-    // Add a custom request header
-    this.setRequestHeader('X-Custom-ID', '12345');
-    
-    // Set up a listener for the response
-    this.addEventListener('readystatechange', () => {
-        if (this.readyState === 4) {
-            // --- RESPONSE INTERCEPTION LOGIC ---
-            if (this.status >= 400) {
-                console.warn(`XHR Error: ${this.status} on ${this.responseURL}`);
-            }
-        }
-    });
-    
-    // Call the original send method
-    originalSend.call(this, data);
-};
-Key Differences from Frameworks
-Frameworks (e.g., Axios, Angular): Provide a clean, declarative API (e.g., axios.interceptors.request.use(...)) to register multiple interceptor functions without needing to deal with monkey-patching.
+// Usage - all fetch calls are now intercepted
+fetch('https://api.example.com/users');
+```
 
-Vanilla JS: Requires direct manipulation of native browser functions, which can be fragile, especially if multiple scripts try to override the same function.
 
 ## Directives
 Structural Directives (e.g., *ngIf, *ngFor) modify the structure of the DOM by adding, removing, or manipulating elements.
