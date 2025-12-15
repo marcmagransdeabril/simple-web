@@ -10,12 +10,13 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
  * [Namespaces](#namespaces)
  * [Type Checking and Linting](#type-checking-and-linting)
  * [Unit Testing](#unit-testing)
-   * [JavaScript Module Testing](#javascript-module-testing)
+   * [JavaScript Module Testing](#javascript-module-testing)mo
    * [JavaScript Unit Testing and Mocking](#javaScript-unit-testing-and-mocking)
    * [JavaScript and HTML/DOM Unit Tests](#javascript-and-html-dom-unit-tests)
    * [End-to-end Testing](#end-to-end-testing)
  * [HTML Includes](#html-includes)
  * [(Web)Components](#webcomponents)
+ * [Monkey Patching and Intereceptions (and Why you do not need Inversion of Control and Dependency Injection in JS)](#monkey-patching-and-interceptors-or-why-you-do-not-need-inversion-of-control-in-js)
  * [Data binding](#data-binding)
  * [Reactivity](#reactivity)
  * [Pipes](#pipes)
@@ -623,7 +624,7 @@ Why do we use the shadow DOM? The styles defined within the Shadow DOM are encap
 See the [example](https://marcmagransdeabril.github.io/simple-web/webcomponents/inex.html).
 
 
-## Interceptors
+## Monkey Patching and Interceptors (or why you do not need Inversion of Control and Dependency Injection in JS)
 
 In JavaScript, network requests are primarily handled by two native APIs: XMLHttpRequest (the older standard) and the Fetch API (the modern standard).
 
