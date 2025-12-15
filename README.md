@@ -697,6 +697,21 @@ window.fetch = async function(url, options = {}) {
 fetch('https://api.example.com/users');
 ```
 
+## Data Binding
+
+### Interpolation (One-Way: Component → View)
+
+### Property Binding (One-Way: Component → View)
+
+### Event Binding (One-Way: View → Component)
+
+### Two-Way Binding (Bidirectional)
+
+### Attribute Binding
+
+### Class Binding
+
+### Style Binding
 
 ## Directives
 Structural Directives (e.g., *ngIf, *ngFor) modify the structure of the DOM by adding, removing, or manipulating elements.
