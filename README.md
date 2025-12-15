@@ -16,7 +16,7 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
    * [End-to-end Testing](#end-to-end-testing)
  * [HTML Includes](#html-includes)
  * [(Web)Components](#webcomponents)
- * [Monkey Patching and Intereceptions (and Why you do not need Inversion of Control and Dependency Injection in JS)](#monkey-patching-and-interceptors-or-why-you-do-not-need-inversion-of-control-in-js)
+ * [Monkey Patching and Intereceptions (and Why you do not need Inversion of Control and Dependency Injection in JS)](#monkey-patching-and-interceptors-or-why-you-do-not-need-inversion-of-control-and-dependency-injection-in-js)
    * [Dependency Injection](#dependency-injection)
    * [Moneky Patching, Moking, and Interception](#moneky-patching-moking-and-interception)
  * [Data binding](#data-binding)
