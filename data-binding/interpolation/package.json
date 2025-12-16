@@ -1,0 +1,16 @@
+{
+  "name": "interpolation",
+  "version": "1.0.0",
+  "main": "module.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "jsdom": "^27.3.0",
+    "vitest": "^4.0.16"
+  }
+}

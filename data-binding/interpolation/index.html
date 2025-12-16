@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div id="app">
+        <p id="output">Hello, {{ name }}!</p>
+        <button id="update-btn">Change Name</button>
+    </div>
+
+    <script type="module">
+        import { Binder } from './module.js';
+
+        const outputElement = document.getElementById('output');
+        const initialData = { name: 'World' };
+
+        // Bind the 'name' property to the 'output' element
+        const binder = new Binder(outputElement, initialData, 'name');
+
+        let count = 0;
+        document.getElementById('update-btn').addEventListener('click', () => {
+            count++;
+            // Changing this value updates the DOM
+            binder.data.name = `User ${count}`; 
+        });
+    </script>
+</body>
+</html>
