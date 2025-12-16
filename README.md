@@ -699,7 +699,147 @@ fetch('https://api.example.com/users');
 
 ## Data Binding
 
-### Interpolation (One-Way: Component → View)
+One of the most handy features of `Angular` is the capability to declaratively associate a `Typescript` variable to an HTML element like:
+```HTML
+        <p id="output">Hello, {{ name }}!</p>
+```
+
+It turns out, this is not a particular "magic" from the Angular framework, but an easily implementable JavaScript trick.
+
+### Interpolation 
+
+The basic interpolation behaviour or one-way binding (from Component to View) can be understood by implementing the [Binder class](https://github.com/marcmagransdeabril/simple-web/tree/main/data-binding/interpolation/module.js):
+```JavaScript
+/**
+ * Minimal one-way data binder for interpolation (Component -> View).
+ * Uses Proxy to detect data changes and updates a single target element.
+ */
+export class Binder {
+    /**
+     * @param {HTMLElement} element - The single element containing the binding.
+     * @param {Object} initialData - The initial state { property: value }.
+     * @param {string} propertyName - The name of the property to bind (e.g., 'name').
+     */
+    constructor(element, initialData, propertyName) {
+        this.element = element;
+        this.prop = propertyName;
+        
+        // Store the original template (e.g., 'Hello {{ name }}')
+        this.template = element.innerHTML;
+        
+        this.data = this._createReactiveData(initialData);
+        this._updateView(); // Initial render
+    }
+
+    // Creates a reactive data object using Proxy
+    _createReactiveData(initialData) {
+        const handler = {
+            set: (target, key, value) => {
+                const success = Reflect.set(target, key, value);
+                if (success && key === this.prop) {
+                    this._updateView();
+                }
+                return success;
+            }
+        };
+        return new Proxy(initialData, handler);
+    }
+
+    // Updates the element's innerHTML with current data
+    _updateView() {
+        const interpolationRegex = new RegExp(`\{\{\\s*${this.prop}\\s*\}\}`, 'g');
+        this.element.innerHTML = this.template.replace(
+            interpolationRegex, 
+            this.data[this.prop]
+        );
+    }
+}
+```
+
+The `Binder` class is then simply used to replace the template expression `{{name}}` but the `initialData.name` value:
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div id="app">
+        <p id="output">Hello, {{ name }}!</p>
+        <button id="update-btn">Change Name</button>
+    </div>
+
+    <script type="module">
+        import { Binder } from './module.js';
+
+        const outputElement = document.getElementById('output');
+        const initialData = { name: 'World' };
+
+        // Bind the 'name' property to the 'output' element
+        const binder = new Binder(outputElement, initialData, 'name');
+
+        let count = 0;
+        document.getElementById('update-btn').addEventListener('click', () => {
+            count++;
+            // Changing this value updates the DOM
+            binder.data.name = `User ${count}`; 
+        });
+    </script>
+</body>
+</html>
+```
+
+How this magic becomes possible?
+
+1. The `Proxy` Object (aka the Interceptor). The `Proxy` object acts as an intermediary or "wrapper" around the original data object (initialData). Any interaction with the Proxy (like reading or writing a property) can be intercepted and modified before it reaches the target object.
+
+*Syntax*: `new Proxy(target, handler)`
+
+* `target` (e.g., initialData): The actual object containing the data (i.e., `{ name: 'World' `}).
+* `handler`: An object that contains methods (called "traps") to define the proxy's behavior.
+
+2. The `set` trap. In the `Binder` code above, we define the `set` trap. This trap is automatically executed every time a property of the `binder.data` object is set or modified:
+```JavaScript
+
+// When the user does this:
+// binder.data.name = 'New Name'; 
+
+// The 'set' trap runs:
+set: (target, key, value) => { ... }
+```
+The set trap receives three arguments:
+
+* `target`: The original object (i.e., `initialData`).
+* `key`: The name of the property being set (e.g., 'name').
+* `value`: The new value being assigned (e.g., 'New Name').
+
+3. The `Reflect` Object. These implements the default behavior. The `Reflect` object is a built-in JavaScript utility that provides methods for interceptable JavaScript operations. It's often used inside `Proxy` handler traps to perform the default operation that was originally intended.
+
+Why do we use `Reflect.set`?
+
+In the `set` trap, if we didn't use `Reflect.set`, we would have to manually write: `target[key] = value;`.
+
+The advantages of using `Reflect.set(target, key, value)` are:
+
+* Cleanliness: It's a cleaner, more readable way to perform the default property assignment.
+* Consistency: It returns a boolean (true/false) indicating if the assignment was successful, which is useful for debugging and standardizing the trap's return value.
+* Safety: It ensures that the underlying assignment follows all standard JavaScript rules (like property setters and writeable checks).
+
+The line `const success = Reflect.set(target, key, value);` simply tells the `Proxy`: "Now that I've intercepted the change, go ahead and actually update the data in the original target object."
+
+4. The Reactivity Logic. After the original data object has been successfully updated, the data binding logic is executed:
+```JavaScript
+
+if (success && key === this.prop) {
+    this._updateView(); 
+}
+```
+
+This is the core of the one-way binding. If the assignment was successful (`success`) AND the key that was changed is the specific property this binder is watching (`key === this.prop`), THEN, execute `this._updateView()`, which updates the HTML element with the new data.
+
+That is, the `Proxy` intercepts the change, the `Reflect` object performs the actual change on the data, and finally the code triggers the update of the view.
+
+See the [example](https://marcmagransdeabril.github.io/simple-web/data-binding/interpolation/inex.html).
+
+
+
 
 ### Property Binding (One-Way: Component → View)
 
