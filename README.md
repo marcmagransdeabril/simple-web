@@ -81,9 +81,11 @@ See a [module example](https://marcmagransdeabril.github.io/simple-web/includes/
 
 ## Namespaces 
 
-While technically not a "namespace" in the classic sense, ES Modules are the modern, built-in solution for managing dependencies and preventing global scope pollution. Every module file has its own isolated scope by default.
+As the application size growths, it is harder to avoid name collisions. Namespaces comes to the rescue by conditionally isolating the exported elements of a module. 
 
-Implementation (File 1: math.js)
+While technically not a "namespace" in the classic sense, ES Modules are also the modern and native solution for managing dependencies and preventing global scope pollution. Every module file has its own isolated scope by default.
+
+Implementation (File 1: `math.js`)
 ```JavaScript
 
 // math.js - Everything here is private unless exported
@@ -98,7 +100,7 @@ export function subtract(a, b) {
 }
 ```
 
-Usage (File 2: main.js)
+Usage (File 2: `main.js`).
 ```JavaScript
 
 // main.js - Import only what you need
@@ -109,6 +111,8 @@ import * as MathOps from './math.js';
 const sum = add(5, 3); // 8
 const diff = MathOps.subtract(10, 4); // 6
 ```
+
+Where the `math.js` module is imported twice, once undr the global scope, and another as part of the `MathOps` scope.
 
 ## Type Checking and Linting
 
