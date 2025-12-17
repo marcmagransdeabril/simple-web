@@ -12,9 +12,9 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
  * [Namespaces](#namespaces)
  * [Type Checking and Linting](#type-checking-and-linting)
  * [Unit Testing](#unit-testing)
-   * [JavaScript Module Testing](#javascript-module-testing)mo
-   * [JavaScript Unit Testing and Mocking](#javaScript-unit-testing-and-mocking)
-   * [JavaScript and HTML/DOM Unit Tests](#javascript-and-html-dom-unit-tests)
+   * [Unit Testing](#unit-testing)
+   * [Unit Testing and Mocking](#unit-testing-and-mocking)
+   * [Integration Testing (JavaScript and DOM)](#integration-testing-javascript-and-dom)
    * [End-to-end Testing](#end-to-end-testing)
  * [HTML Includes](#html-includes)
  * [(Web)Components](#webcomponents)
@@ -116,7 +116,9 @@ Where the `math.js` module is imported twice, once undr the global scope, and an
 
 ## Type Checking and Linting
 
-Errors in JavaScript, HTML, and CSS can often only be observed when the code is run in the browser. JavaScript, being a dynamic language, has errors that are only triggered when specific parts of the code are executed. The situation improved considerably after the `use strict` mode was adopted by all major browsers around 2018. However, a linter still offers advantages by detecting errors before execution. To install and execute a linter in your project:
+Errors in JavaScript, HTML, and CSS can often only be observed when the code is run in the browser. JavaScript, being a dynamic language, has errors that are only triggered when specific parts of the code are executed. The situation improved considerably after the `use strict` mode was adopted by all major browsers around 2018. However, a linter still offers advantages by detecting errors before execution. 
+
+If you want to install and execute a linter in your project you just need to:
 
 1. Install the lint packages using `npm` or similar:
 ```bash
@@ -185,25 +187,24 @@ export default {
 npm run lint
 ```
 
-
-
 ## Automated Testing
 
-Once you have modules, the next step is how to test them. 
+Once you have modules, the next step is how to test them in isolation. That is, how can we unit test JavaSCript modules and their interaction with the browser? 
 
-For the sake of concisnsess, I would focus on threee scenarios: black box, mocking, dependency injection, browser.
+For the sake of concisnsess, I would focus on threee scenarios: pure unit testing, unit testing with mocking of external dependencies, integration testing of the JavaScript module interacting with the DOM tree, and finally, end-to-end testing.
 
-### JavaScript Module Testing
+### Unit Testing
+
+This is the most basic testing method where we test a JavaScript module in isolation:
 
 1. Initilize `npm` package manager and install the [Vitest](https://vitest.dev/) dependency (note: the most widely used [Jest](https://jestjs.io/) has not been used for not suppoting standard ES6 modules, and requiring extra configuration for its support):
 ```bash
 # Initialize package.json if you haven't already
 npm init -y
 
-# Install Jest as a dev dependency
+# Install Vitest as a dev dependency
 npm install --save-dev vitest
 ```
-
 2. Add `vitest` in the `package.json` `test` target script:
 ```json
 
@@ -249,9 +250,14 @@ describe('Math functions', () => {
 });
 ```
 
+5. Run the unit test:
+```bash
+npm test
+```
+
 ### Unit Testing and Mocking
 
-Sometimes we want to test a JavaScript module that depends on a remote service. However, we do not want to actually test the remote service, just the business logic of the module given a known input/ouput contract with the remote service.
+Sometimes we want to test a JavaScript module that depends on a remote service or on another library. However, we do not want to actually test the remote service or third party library, we just want to test the business logic of the module given a known input/ouput contract with the remote service.
 
 Let's imagine a simple [accounts.js](https://github.com/marcmagransdeabril/simple-web/tree/main/unit-tests/js-mock/accounts.js) module that retrieves the deposits from an API and checks if the balance is positive or negative:
 ```JavaScript
@@ -274,14 +280,9 @@ export const checkBalance = async (account) => {
 };
 ```
 
-Ideally, we would like to mock the `_fetchAccount()` function in the unit test. However, this won't work as the call to `_fetchAccount()` inside `checkBalance()` :
-```JavaScript
-const response = await _fetchAccount(account);
-```
+Ideally, we would like to mock the `_fetchAccount()` function in the unit test. However,`checkBalance()` uses a direct reference to the function and therefore it cannot be mocked from outside the module.
 
-Uses a direct reference to the function, instead of the mocked function from the test that will be somethign like `accounts._fetchAccount()`.
-
-In that situation, there are two parsimonious solutions. Either we separate the `_fetchAccount()` and `checkBalance()` in different modules, one for the service retrieval, and the other for the business logic, or we directly mock the global `fetch()` function.
+In that situation, there are two parsimonious solutions. Either we separate the `_fetchAccount()` and `checkBalance()` in different modules. Not an unusual situation, separting the service access from the business logic, or we directly mock the global `fetch()` function.
 
 Most likely, the first approach will scale better as the code grows, but for the sake of the exercise, let's just mock the global `fetch()` function:
 
@@ -358,7 +359,9 @@ describe("AccountModule - checkBalance (3 Main Cases)", () => {
 
 See the complete [example](https://github.com/marcmagransdeabril/simple-web/tree/main/unit-tests/js-mock).
 
-### JavaScript and HTML/DOM Testing 
+******************
+
+### Integration Testing (Javascript and DOM)
 
 If the previous section shows how to perform unit testing of a JavaScript module, in this section we go further and we show how a given JavaScript module interacts with the DOM generated out an HTML page using [jsdom](https://github.com/jsdom/jsdom) library. This is equivalent to the `.spec.ts` files in Angular were unit tests can retrieve DOM elements, test basic events (Click, input, submit, Keyboard events, Custom events, or Event bubbling), and even chec in certain CSS classes are loaded. 
 
