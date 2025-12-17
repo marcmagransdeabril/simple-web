@@ -38,11 +38,13 @@ Most likely, there are lots of people that hate the approach 😡. It is likely 
 
 ## Modules
 
-A software module is a self-contained part of a computer program that performs a specific function or task and hides implementation specific details from the client using the module. It helps organize complex programs by breaking them down into manageable sections, making the code easier to understand and reuse.
+A software module is a self-contained part of a computer program that performs a specific function or task, and hides implementation specific details from the client using the module. It helps organize complex programs by breaking them down into manageable sections, making the code easier to understand and reuse.
 
-This obvious concept was invented just 40 years ago by David Parnas [On the Criteria To Be Used in Decomposing Systems into Modules](https://dl.acm.org/doi/10.1145/361598.361623). Parnas introduced the critical concept of "Information Hiding" as the core criterion for defining a good module.
+This obvious concept was invented just 40 years ago by David Parnas [On the Criteria To Be Used in Decomposing Systems into Modules](https://dl.acm.org/doi/10.1145/361598.361623). D. Parnas introduced the critical concept of "Information Hiding" as the core criterion for defining a good module.
 
-Then 30 years after D. PArnas invention, and just 20 years afetr the creation of JavaScript, [EcmaScript standard 6 (2015) introduced modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
+Then 30 years after D. Parnas invention, and just 20 years after the creation of JavaScript, [EcmaScript standard 6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) introduced modules. 
+
+How can we implement modules in JavaScript? Nothing simpler.
 
 In the case below, a simple JavaScript module is used by an HTML page:
 ```html
@@ -74,7 +76,6 @@ export function helloWorld() {
   return "<p>innerHTML provided by the <var>helloWorld()</var> method exported from module.js</p>";
 }
 ```
-
 
 See a [module example](https://marcmagransdeabril.github.io/simple-web/includes/main.html).
 
