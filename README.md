@@ -1,6 +1,8 @@
 # Frontend without Frameworks?
 
-The basic idea is to write a guide to develop frontend applications with a minimal overhead of libraries and frameworks. That is, instead of using complex frameworks, leverage as much as possible the latest CSS, HTML, and Javascript standards (implemented in the four major browsers: Chrome, Edge, Firefox, and Safari), and minimize the number of external dependencies. This is mean to simplify the overall frontend design, optimize long-term maintainability, and potentially improve the performance by reducing the number of software layers used.
+The basic idea is to write a guide to develop frontend applications with a minimal overhead of libraries and frameworks. Is it possible to use vanilla JavaScript/HTML/CSS instead of using a framework (e.g., [React](https://react.dev/), [Next](https://nextjs.org/), [Angular](https://angular.dev/), [Vue.js](https://vuejs.org/), etc.)?
+
+Is it possible to leverage the latest CSS, HTML, and Javascript standards (implemented in the four major browsers: Chrome, Edge, Firefox, and Safari) and implement similar features than the ones provided by Frontend Frameworks? This could potentially simplify the software stack, improve the performance, minimize the number of external dependencies, and the therefore, the long-term maintenance of the projects build with the native approach. T
 
 Most likely, there are lots of people that hate the approach 😡. It is likely they have good reasons for it.
 
